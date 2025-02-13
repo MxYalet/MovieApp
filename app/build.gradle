@@ -1,0 +1,130 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
+}
+
+apply from: "dependencies.gradle"
+
+android {
+    namespace 'com.leomarkpaway.jetmoviedb'
+
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.leomarkpaway.jetmoviedb"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject. file("local.properties").newDataInputStream())
+        buildConfigField "String", "MOVIE_API_KEY", "${properties. getProperty("MOVIE_API_KEY") }"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.4.1"
+    }
+    buildFeatures {
+        dataBinding = true
+        compose = true
+    }
+}
+
+dependencies {
+
+    // Common
+    implementation androidx.core_ktx
+    implementation androidx.appcompat
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    implementation 'com.google.firebase:firebase-storage-ktx:21.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:25.0.0'
+
+    // Common test junit
+    testImplementation junit_test.junit
+    androidTestImplementation junit_test.ext_junit
+    androidTestImplementation junit_test.espresso_core
+
+    // hilt
+    implementation hilt.android
+    kapt hilt.compiler
+
+    // room
+    implementation room.runtime
+    kapt room.compiler
+    implementation room.ktx
+    testImplementation room.testing
+
+    // coroutines flow
+    implementation coroutines.coroutines_android
+    implementation coroutines.coroutines_core
+
+    // material design
+    implementation google.material
+
+    // navigation
+    implementation navigation.fragment
+    implementation navigation.ui
+
+    // coil image loader
+//  implementation coil.io
+
+    // Retrofit
+    implementation retrofitDependencies.retrofit
+    implementation retrofitDependencies.converterGson
+    implementation retrofitDependencies.converterMoshi
+    implementation retrofitDependencies.adapterRxJava2
+
+    // OkHttp
+    implementation okHttpDependencies.okHttp
+    implementation okHttpDependencies.loggingInterceptor
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.1'
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'com.google.android.play:review-ktx:2.0.1'
+    implementation 'androidx.lifecycle:lifecycle-common-jvm:2.8.7'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
+    implementation 'com.google.android.gms:play-services-ads-lite:23.6.0'
+    kapt "androidx.room:room-compiler:2.6.1"
+
+    // Moshi
+    implementation moshiDependencies.moshi
+    implementation moshiDependencies.moshiKotlin
+    kapt moshiDependencies.moshiKotlinCodeGen
+
+    // Data store
+    implementation data_store.preferences
+
+    // Compose
+    implementation "androidx.compose.material:material:1.4.1"
+    implementation "androidx.compose.compiler:compiler:1.4.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.4.1"
+    implementation 'androidx.activity:activity-compose:1.7.0'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    debugImplementation "androidx.compose.ui:ui-tooling:1.4.1"
+    implementation "androidx.compose.material:material-icons-extended:1.2.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    implementation "io.coil-kt:coil-compose:1.4.0"
+    implementation "androidx.compose.runtime:runtime-livedata:1.4.1"
+
+    // Orbit MVI
+    implementation "org.orbit-mvi:orbit-viewmodel:4.5.0"
+
+}
